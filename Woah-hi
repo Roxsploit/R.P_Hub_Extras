@@ -1,0 +1,30 @@
+local a = Get.Players
+local b = Get.Chat
+require(b:WaitForChild("ClientChatModules").ChatSettings).PlayerDisplayNamesEnabled = false
+local function c(d, e)
+    repeat
+        task.wait()
+    until d:FindFirstChildWhichIsA("Humanoid")
+    d:FindFirstChildWhichIsA("Humanoid").DisplayName = e
+end
+for e, d in next, a:GetPlayers() do
+    if d.Character then
+        d.DisplayName = d.Name
+        c(d.Character, d.Name)
+    end
+    d.CharacterAdded:Connect(
+        function(d)
+            c(d, d.Name)
+        end
+    )
+end
+a.PlayerAdded:Connect(
+    function(f)
+        f.DisplayName = f.Name
+        f.CharacterAdded:Connect(
+            function(d)
+                c(d, f.Name)
+            end
+        )
+    end
+)
